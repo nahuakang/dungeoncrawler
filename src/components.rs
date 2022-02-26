@@ -4,6 +4,7 @@
 
 pub use crate::prelude::*;
 
+// Render component describes how the player appears on the screen
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Render {
     // bracket-lib class that stores both a foreground and background color in a single struct
