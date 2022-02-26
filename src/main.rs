@@ -1,7 +1,6 @@
 mod camera;
 mod map;
 mod map_builder;
-mod player;
 
 // Use prelude to export common functionality of the crate
 // and external libraries to the rest of the program.
@@ -17,7 +16,6 @@ mod prelude {
     pub use crate::camera::*;
     pub use crate::map::*;
     pub use crate::map_builder::*;
-    pub use crate::player::*;
 }
 
 use prelude::*;
@@ -25,7 +23,7 @@ use prelude::*;
 struct State {
     camera: Camera,
     map: Map,
-    player: Player,
+    // player placeholder
 }
 
 impl State {
@@ -36,7 +34,7 @@ impl State {
         Self {
             camera: Camera::new(map_builder.player_start),
             map: map_builder.map,
-            player: Player::new(map_builder.player_start),
+            // player placeholder
         }
     }
 }
@@ -51,10 +49,8 @@ impl GameState for State {
         ctx.set_active_console(1);
         ctx.cls();
 
-        // First update player position before rendering the map and player
-        self.player.update(ctx, &self.map, &mut self.camera);
-        self.map.render(ctx, &self.camera);
-        self.player.render(ctx, &self.camera);
+        // TODO: Execute systems
+        // TODO: Render draw buffer
     }
 }
 
