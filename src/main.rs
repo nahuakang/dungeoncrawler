@@ -1,6 +1,10 @@
 mod camera;
+mod components;
 mod map;
 mod map_builder;
+mod spawner;
+mod state;
+mod systems;
 
 // Use prelude to export common functionality of the crate
 // and external libraries to the rest of the program.
@@ -14,45 +18,15 @@ mod prelude {
     pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
     pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 2;
     pub use crate::camera::*;
+    pub use crate::components::*;
     pub use crate::map::*;
     pub use crate::map_builder::*;
+    pub use crate::spawner::*;
+    pub use crate::state::*;
+    pub use crate::systems::*;
 }
 
 use prelude::*;
-
-struct State {
-    camera: Camera,
-    map: Map,
-    // player placeholder
-}
-
-impl State {
-    fn new() -> Self {
-        let mut rng = RandomNumberGenerator::new();
-        let map_builder = MapBuilder::new(&mut rng);
-
-        Self {
-            camera: Camera::new(map_builder.player_start),
-            map: map_builder.map,
-            // player placeholder
-        }
-    }
-}
-
-impl GameState for State {
-    fn tick(&mut self, ctx: &mut BTerm) {
-        // Set active console to map layer and clear
-        ctx.set_active_console(0);
-        ctx.cls();
-
-        // Set active console to player layer and clear
-        ctx.set_active_console(1);
-        ctx.cls();
-
-        // TODO: Execute systems
-        // TODO: Render draw buffer
-    }
-}
 
 fn main() -> BError {
     let ctx = BTermBuilder::new()
@@ -79,3 +53,10 @@ fn main() -> BError {
 // They are indexed with 0 being the top-left, 255 the bottom-right:
 // Going 0..15 on the first row, 16..31 on the second and so on.
 // So you can replace the glyph in slot 2 and use to_cp437(2) to render that character.
+
+// Note on `query`:
+// The following syntax:
+// <(Point, MeleeAI)>::query().iter()
+// <(Point, MeleeAI)>::query().filter(component::<Render>())
+// are not Rust turbofish but rather just "universal function call syntax".
+// See: https://www.reddit.com/r/rust/comments/r29bdo/comment/hm3fjtp/
