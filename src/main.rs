@@ -70,10 +70,10 @@ impl GameState for State {
         // When a resource is inserted into Legion’s resource handler, it replaces any existing resource of the same type
         self.resources.insert(ctx.key);
 
-        // Execute systems
+        // Execute systems (which also submits draw buffers)
         self.systems.execute(&mut self.ecs, &mut self.resources);
 
-        // Render draw buffer
+        // Render draw buffers
         render_draw_buffer(ctx).expect("Render error");
     }
 }
