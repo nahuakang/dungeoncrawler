@@ -73,7 +73,8 @@ impl GameState for State {
         // Execute systems
         self.systems.execute(&mut self.ecs, &mut self.resources);
 
-        // TODO: Render draw buffer
+        // Render draw buffer
+        render_draw_buffer(ctx).expect("Render error");
     }
 }
 
