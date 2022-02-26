@@ -17,6 +17,7 @@ impl Camera {
         }
     }
 
+    // Update the camera position based on player movement
     pub fn on_player_move(&mut self, player_position: Point) {
         self.left_x = player_position.x - DISPLAY_WIDTH / 2;
         self.right_x = player_position.x + DISPLAY_WIDTH / 2;
