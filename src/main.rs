@@ -1,6 +1,8 @@
 mod camera;
+mod components;
 mod map;
 mod map_builder;
+mod spawner;
 
 // Use prelude to export common functionality of the crate
 // and external libraries to the rest of the program.
@@ -14,27 +16,40 @@ mod prelude {
     pub const DISPLAY_WIDTH: i32 = SCREEN_WIDTH / 2;
     pub const DISPLAY_HEIGHT: i32 = SCREEN_HEIGHT / 2;
     pub use crate::camera::*;
+    pub use crate::components::*;
     pub use crate::map::*;
     pub use crate::map_builder::*;
+    pub use crate::spawner::*;
 }
 
+use legion::systems::Resource;
 use prelude::*;
 
 struct State {
-    camera: Camera,
-    map: Map,
-    // player placeholder
+    ecs: World,
+    resources: Resources,
+    systems: Schedule,
 }
 
 impl State {
     fn new() -> Self {
+        // legion stores all entities and components in the `World` struct
+        let mut ecs = World::default();
+        let mut resources = Resources::default();
         let mut rng = RandomNumberGenerator::new();
         let map_builder = MapBuilder::new(&mut rng);
 
+        // Calling spawn_player to add the player and their components to the ECS
+        spawn_player(&mut ecs, map_builder.player_start);
+
+        // Map and camera are part of our resources list
+        resources.insert(map_builder.map);
+        resources.insert(Camera::new(map_builder.player_start));
+
         Self {
-            camera: Camera::new(map_builder.player_start),
-            map: map_builder.map,
-            // player placeholder
+            ecs,
+            resources,
+            systems: build_schedule(),
         }
     }
 }
