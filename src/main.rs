@@ -102,3 +102,10 @@ fn main() -> BError {
 // They are indexed with 0 being the top-left, 255 the bottom-right:
 // Going 0..15 on the first row, 16..31 on the second and so on.
 // So you can replace the glyph in slot 2 and use to_cp437(2) to render that character.
+
+// Note on `query`:
+// The following syntax:
+// <(Point, MeleeAI)>::query().iter()
+// <(Point, MeleeAI)>::query().filter(component::<Render>())
+// are not Rust turbofish but rather just "universal function call syntax".
+// See: https://www.reddit.com/r/rust/comments/r29bdo/comment/hm3fjtp/

@@ -12,6 +12,8 @@ pub struct Render {
     pub glyph: FontCharType,
 }
 
-// Player is a “tag” indicating that an entity with this component is the player
+// Player component is a “tag” indicating that an entity with this component is the player
+// Component does not have to contain any fields.
+// An empty component is called a "tag", serving as a flag that a property exists
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Player;
