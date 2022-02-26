@@ -3,6 +3,7 @@ mod components;
 mod map;
 mod map_builder;
 mod spawner;
+mod systems;
 
 // Use prelude to export common functionality of the crate
 // and external libraries to the rest of the program.
@@ -20,9 +21,9 @@ mod prelude {
     pub use crate::map::*;
     pub use crate::map_builder::*;
     pub use crate::spawner::*;
+    pub use crate::systems::*;
 }
 
-use legion::systems::Resource;
 use prelude::*;
 
 struct State {
@@ -64,7 +65,14 @@ impl GameState for State {
         ctx.set_active_console(1);
         ctx.cls();
 
-        // TODO: Execute systems
+        // Add ctx.key (which holds the keyboard state) as a resource
+        // to make the current keyboard state available to any system that requests it
+        // When a resource is inserted into Legion’s resource handler, it replaces any existing resource of the same type
+        self.resources.insert(ctx.key);
+
+        // Execute systems
+        self.systems.execute(&mut self.ecs, &mut self.resources);
+
         // TODO: Render draw buffer
     }
 }
