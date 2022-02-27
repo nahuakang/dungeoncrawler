@@ -18,3 +18,6 @@ pub struct Render {
 // An empty component is called a "tag", serving as a flag that a property exists
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Player;
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Enemy;

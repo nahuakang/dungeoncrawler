@@ -17,6 +17,14 @@ impl State {
         // Calling spawn_player to add the player and their components to the ECS
         spawn_player(&mut ecs, map_builder.player_start);
 
+        // Spawn monsters in each room except for the first room the player is in
+        map_builder
+            .rooms
+            .iter()
+            .skip(1)
+            .map(|r| r.center())
+            .for_each(|pos| spawn_monster(&mut ecs, &mut rng, pos));
+
         // Map and camera are part of our resources list
         resources.insert(map_builder.map);
         resources.insert(Camera::new(map_builder.player_start));
