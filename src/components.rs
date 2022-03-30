@@ -21,3 +21,7 @@ pub struct Player;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Enemy;
+
+// MovingRandomly component is a "tag" for entities that wander aimlessly.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct MovingRandomly;

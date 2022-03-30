@@ -2,6 +2,7 @@ mod collisions;
 mod entity_render;
 mod map_render;
 mod player_input;
+mod random_move;
 
 use crate::prelude::*;
 
@@ -11,8 +12,12 @@ pub fn build_schedule() -> Schedule {
     Schedule::builder()
         .add_system(player_input::player_input_system())
         .add_system(collisions::collisions_system())
+        // Flush after collision detection ensures any deleted entities are gone bfore rendered
+        // and all systems up to that point have finihsed executing before the next one runs
+        .flush()
         .add_system(map_render::map_render_system())
         .add_system(entity_render::entity_render_system())
+        .add_system(random_move::random_move_system())
         .build()
 }
 
